@@ -1,0 +1,35 @@
+{
+    "editor.fontSize": 16,
+    "files.encoding": "gb2312",
+    "editor.mouseWheelZoom": true,
+    "editor.formatOnSave": false,//手动保存时自动格式化
+    "search.exclude": {
+        "**/node_modules": true,
+        "**/bower_components": true,
+        "**/*.code-search": true
+   
+    },
+    "editor.wordWrap":"bounded", //自动换行
+    "editor.wordWrapColumn":120,
+    "files.exclude": {
+        "**/.":true,
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+/**************驱动相关的文件*******************/
+        "**/*.ko": true,
+        "**/*.mod": true,
+        "**/*.cmd": true,
+        "**/*.o": true,
+        "**/*.swp": true,
+        "**/*.order": true,
+        "**/*.mod.c": true,
+        "**/*.symvers": true,
+        "**/*.tmp_versions": true,
+/*********************************************/
+
+    }
+
+
+}
