@@ -15,23 +15,124 @@
 	// 	],
 	// 	"description": "Log output to console"
 	// }
-
+	// "Temp":{
+	// 	"scope": "JSON",
+	// 	"prefix": "temp_snippets",
+	// 	"body": [
+	// 		"\"名称\":{",
+	// 		"",
+	// 		"",
+	// 		"\"scope\":\"c\",",
+	// 		"prefix:\"dev_$1\",",
+	// 		"\"body\":[",
+	// 		"],",
+	// 		"\"description\":\"\"",
+	// 		"}",
+	// 	],
+	// 	"description": "asdasd"
+	// },
+	/*module_init(demo_init);
+module_exit(demo_exit);
+MODULE_LICENSE("GPL");*/
+	"驱动模块初始化": {
+		"scope": "c",
+		"prefix": "dev_init",
+		"body": [
+			"#include <linux/init.h>",
+			"#include <linux/module.h>",
+			"//驱动名称",
+			"#define CDEVNAME \"demo$1\" ",
+			" /* 主设备号major>0 系统认为这个major就是主设备号，major=0 系统自动分配一个主设备号*/",
+			"int major = 0;",
+			"",
+			"",
+			"",
+			"/*初始化驱动模块*/",
+			"static int __init demo$1_init(void)",
+			"{",
+			"\t/*注册一个字符设备驱动*/",
+			"\tmajor=register_chrdev(major,CDEVNAME,&fops);",
+			"\tif(major<0){",
+			"\t\tpkintk(\"register char devices deiver error\");",
+			"\t\treturn major;",
+			"\t}",
+			"\treturn 0;",
+			"}",
+			"/*卸载驱动模块*/",
+			"static void  __exit demo$1_exit(void)",
+			"{",
+			"\t/*注销一个字符设备驱动*/\r\n\tunregister_chardev(major,CDEVNAME);",
+			"}",
+			"module_init(demo$1_init);",
+			"module_exit(demo$1_exit);",
+			"MODULE_LICENSE(\"GPL\");",
+		],
+		"description": "驱动模块初始化"
+	},
+	"将数据从用户空间拷贝到内核空间":{
+		"scope": "c",
+		"prefix": "dev_copy_from_user",
+		"body": [
+			"/*#include <linux/uaccess.h>",
+			"@to :内核空间的首地址",
+			"@from:用户空间的首地址",
+			"@n :拷贝的字节的个数",
+			"返回值:成功返回0，失败返回未拷贝的字节的个数*/",
+			"unsigned long copy_from_user(void *to,const void _user *from,unsigned long n)",
+		],
+		"description": "将数据从用户空间拷贝到内核空间"
+	},
+	"将数据从内核空间拷贝到用户空间":{
+		"scope": "c",
+		"prefix": "dev_copy_to_user",
+		"body": [
+			"/*@to :用户空间的首地址，@from:内核空间的首地址 @n:拷贝的字节的个数 \r\n返回值:成功返回0 失败返回未拷贝的字节的个数*/",
+			"unsigned long copy_to_user(void __user *to,const void *from,unsigned long n)",
+		],
+		"description": "将数据从内核空间拷贝到用户空间"
+	},
+	"将物理地址映射成虚拟地址":{
+		"scope": "c",
+		"prefix": "dev_ioremap",
+		"body": [
+			"/*",
+			"将物理地址映射为虚拟地址",
+			"@offset :物理地址",
+			"@size :映射的长度",
+			"返回值:成功返回虚拟地址，失败返回NULL",
+			"*/",
+			"void *ioremap(phys_addr_t offset,unsignde long size)",
+		],
+		"description": "将物理地址映射成虚拟地址"
+	},
+	"取消虚拟地址映射":{
+		"scope": "c",
+		"prefix": "dev_iounmap",
+		"body": [
+			"/*@addr 虚拟地址*/",
+			"void iounmap(void *addr)",
+		],
+		"description": "取消虚拟地址映射",
+	},
 	"dev_ioctl": {
 		"scope": "c",
 		"prefix": "dev_ioctl",
 		"body": [
 			"/*打开*/",
-			"int mycdev_open(struct inode *inode, struct file *file){};",
-			"",
-			"ssize_t mycdev$1_read(struct file *file, char __user *ubuf,size_t size, loff_t *offs){};",
-			"ssize_t mycdev$1_write(struct file *file,const char __user *ubuf,size_t size, loff_t *offs){};",
-			"int mycdev$1_close(struct inode *inode, struct file *file){};",
-			"long mycdev$1_ioctl(struct file *file, unsigned int cmd, unsigned long args){};",
+			"int mycdev$1_open(struct inode *inode, struct file *file){}",
+			"/*读取*/",
+			"ssize_t mycdev$1_read(struct file *file, char __user *ubuf,size_t size, loff_t *offs){}",
+			"/*写入*/",
+			"ssize_t mycdev$1_write(struct file *file,const char __user *ubuf,size_t size, loff_t *offs){}",
+			"/*关闭*/",
+			"int mycdev$1_close(struct inode *inode, struct file *file){}",
+			"/* #include <sys/ioctl.h>*/",
+			"/*功能:input / output control device 输入/输出 控制器驱动\r\n参数:@fd :打开设备得到的文件描述符 @request:通过同宏_IO _IOR _IOW  _IOWR封装的请求码 @...:可变参数*/",
+			"long mycdev$1_ioctl(struct file *file, unsigned int cmd, unsigned long args){}",
 			"static struct file_operations fops ={.open    = mycdev$1_open,.read    = mycdev$1_read,.write   = mycdev$1_write,.unlocked_ioctl = mycdev$1_ioctl,.release = mycdev$1_close,} "
 		],
 		"description": "ioctl驱动模板代码",
 	},
-
 	"多路复用": {
 		"scope": "c",
 		"prefix": "dev_epoll",
@@ -41,25 +142,119 @@
 		],
 		"description": "ioctl驱动模板代码",
 	},
-	
-	"中断": {
+	"注册中断": {
 		"scope": "c",
 		"prefix": "dev_irq",
 		"body": [
 			"/*",
+			"irq:软终端号",
 			"handler:中断处理函数的指针",
-			"",
+			"flags ：中断的触发方式",
+			"name :中断的名字 ",
+			"dev :向中断处理函数传递的参数",
+			"返回值：成功返回0，失败返回错误码",
 			"*/",
 			"int request_irq(unsigned int irq,irq_handler_t handler,unsigned long flags,const char *name,void *dev){}"
 		],
 		"description": [
 			""
-		
 		]
 	},
-
-
-
-
-
+	"释放中断": {
+		"scope": "c",
+		"prefix": "dev_free_irq",
+		"body": [
+			"/*@irq:软中断号 @dev_id:中断处理函数最后一个成员传递的参数*/",
+			"void free_irq(unsigned int irq,void * dev_id)",
+			"",
+		],
+		"description": "释放中断"
+	},
+	"内核定时器": {
+		"scope": "c",
+		"prefix": "dev_timer_list",
+		"body": [
+			"struct timer_list mytimer;//全局变量",
+			"mytimer.expires = jiffies + 10;//jiffies是当前系统时间戳 +10是定时10ms",
+			"mytime.function=irq_timer_function; //定时器的处理函数",
+			"mytime.data=0; //向处理函数传递data",
+			"init_timer(&mytimer); //初始化定时器中其他成员",
+			"add_timer(&mytimer); //定时器启动"
+		],
+		"description": [
+			"",
+			"1.定时器只能注册一次，重复注册，linux就崩溃了",
+			"",
+			"",
+		],
+	},
+	"内核定时器相关函数": {
+		"scope": "c",
+		"prefix": "dev_timer_about",
+		"body": [
+			"/*",
+			"定时器的注册 \r\n\t add_timer(struct timer_list *timer) ",
+			"\t定时器只能被注册一次，如果下一次在注册定时器，此时linux内核就崩溃了。重新启动定时器 \r\n",
+			"int mod_timer(struct timer_list *timer, unsigned long expires)",
+			"\t参数：@timer :定时器结构体指针 \r\n\t 返回值：如果定时器再次启动成功了返回1，否则返回0定时器的删除 \r\n",
+			"int del_timer(struct timer_list *timer)\r\n \t功能：注销定时器 \r\n\t 参数：@timer :定时器结构体指针 \r\n\t 返回值：删除不活动的定时器返回1，删除活动的定时器返回0；",
+			"*/",
+		],
+		"description": "内核定时器操作的相关函数以及主要事项"
+	},
+	"gpio子系统/gpio子系统（gpiolib.c）": {
+		"scope": "c",
+		"prefix": "dev_gpio_request",
+		"body": [
+			"/*@gpio:gpio的编号 @label:名字，NULL 返回值：成功返回0，失败返回错误码*/",
+			"int gpio_request(unsigned gpio, const char *label)"
+		],
+		"description": "申请一个gpio去使用"
+	},
+	"设置gpio为输出": {
+		"scope": "c",
+		"prefix": "dev_gpio_direction_input",
+		"body": [
+			"/*设置gpio为输入\r\n \t 参数:@gpio:gpio编号 \r\n\t 返回值：成功返回0，失败返回错误码 */",
+			"int gpio_direction_input(unsignde gpio)",
+		],
+		"description": "设置GPIO为输入"
+	},
+	"设置gpio为输入": {
+		"scope": "c",
+		"prefix": "",
+		"body": [
+			"/*设置gpio为输出\r\n \t 参数:@gpio:gpio编号 \r\n\t 返回值：成功返回0，失败返回错误码 */",
+			"int gpio_direction_output(unsigned gpio)",
+		],
+		"description": "设置gpio为输出"
+	},
+	"设置gpio输出的高低电平": {
+		"scope": "c",
+		"prefix": "dev_gpio_direction_input",
+		"body": [
+			"/*设置gpio输出的高低电平\r\t 参数 @gpio: gpio编号 @value:1输出高  0输出低*/",
+			"void gpio_set_value(unsigned gpio, int value)",
+			"",
+		],
+		"description": "设置gpio输出的高低电平"
+	},
+	"获取gpio的高低电平的值": {
+		"scope": "",
+		"prefix": "dev_gpio_get_value",
+		"body": [
+			"/*获取gpio的高低电平的值\r\n 参数 @gpio: gpio编号 \r\n 返回值:读到1表示输出高电平  读到0表示输出低*/",
+			"int gpio_get_value(unsigned gpio)"
+		],
+		"description": "获取gpio的高低电平的值"
+	},
+	"释放gpio": {
+		"scope": "c",
+		"prefix": "dev_gpio_free",
+		"body": [
+			"/*释放gpio*/",
+			"void gpio_free(unsigned gpio)",
+		],
+		"description": "释放gpio"
+	}
 }

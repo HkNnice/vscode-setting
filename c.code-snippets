@@ -15,7 +15,7 @@
 	// 	],
 	// 	"description": "Log output to console"
 	// }
-	"arr_len": {
+	"数组长度": {
 		"scope": "c",
 		"prefix": "arr_len",
 		"body": [
@@ -24,7 +24,7 @@
 		],
 		"description": "数组的大小",
 	},
-	"err_perror": {
+	"打印函数": {
 		"scope": "c",
 		"prefix": "err_perror",
 		"body": [
@@ -32,4 +32,8 @@
 		],
 		"description": "打印错误内容",
 	},
+
+
+
+	
 }

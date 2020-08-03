@@ -29,6 +29,9 @@
         "**/*.tmp_versions": true,
 /*********************************************/
 
+    },
+    "files.associations": {
+        "functional": "c"
     }
 
 
